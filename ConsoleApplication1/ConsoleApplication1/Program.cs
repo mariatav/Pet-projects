@@ -8,7 +8,10 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        private void Method1() { }
+        private void Method1()
+        {
+            //Method body
+        }
         static void Main(string[] args)
         {
         }
