@@ -13,7 +13,10 @@ namespace ConsoleApplication1
         {
             //Method body
         }
-        private void MethodBranch5() { }
+        private void MethodBranch5()
+        {
+            //master change
+        }
         private void MethodBranch3() { }
         private void MethodBranch2() { }
         private void MethodBranch1()
