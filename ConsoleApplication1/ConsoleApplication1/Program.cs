@@ -17,7 +17,7 @@ namespace ConsoleApplication1
         }
         private void Method1()
         {
-            //Method body
+            //Method body branch 5
         }
         static void Main(string[] args)
         {
