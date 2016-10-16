@@ -8,6 +8,7 @@ namespace ConsoleApplication1
 {
     class Program
     {
+        private void MethodBranch2() { }
         private void MethodBranch1()
         {
             //Method body
