@@ -34,10 +34,13 @@ namespace ConsoleApplication1
         {
             OuterClass obj = new OuterClass();
             OuterClass.PublicNestedClass obj2 = new OuterClass.PublicNestedClass();
-            new OuterClass.PrivateNestedClass();
+            //new OuterClass.PrivateNestedClass();//produces an error
             Interface1 nestedObject=OuterClass.privateNestedObject2;
             nestedObject.InterfaceMethod();
-            nestedObject.PublicInnerMethod();
+            //nestedObject.PublicInnerMethod();//produces an error
+
+            ClassInterface inter = new ClassInterface();
+            (Interface2)inter.Method1();
 
         }
     }
