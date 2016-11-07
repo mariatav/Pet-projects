@@ -32,6 +32,13 @@ namespace ConsoleApplication1
         }
         static void Main(string[] args)
         {
+            OuterClass obj = new OuterClass();
+            OuterClass.PublicNestedClass obj2 = new OuterClass.PublicNestedClass();
+            new OuterClass.PrivateNestedClass();
+            Interface1 nestedObject=OuterClass.privateNestedObject2;
+            nestedObject.InterfaceMethod();
+            nestedObject.PublicInnerMethod();
+
         }
     }
 }
