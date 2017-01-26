@@ -8,9 +8,27 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        private void Method1()
+        private void MethodMaster()
+        {
+            //branch1 change
+        }
+        private void MethodBranch4()
         {
             //Method body
+        }
+        private void MethodBranch5()
+        {
+            //master change
+        }
+        private void MethodBranch3() { }
+        private void MethodBranch2() { }
+        private void MethodBranch1()
+        {
+            //Method body
+        }
+        private void Method1()
+        {
+            //Method body branch 5
         }
         static void Main(string[] args)
         {
