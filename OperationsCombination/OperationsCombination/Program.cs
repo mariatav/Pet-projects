@@ -41,29 +41,49 @@ namespace OperationsCombination
                         return "found it!!";
                     for (int j = i + 1; j < currentOperations.Count; j++)
                     {
-                        var newOperations = new List<Operation>();
-                        if (Operation.TryApplyOperator(currentOperations[i], currentOperations[j], Operator.Add,
-                            out var newOperation))
-                            newOperations.Add(newOperation);
-                        if (Operation.TryApplyOperator(currentOperations[i], currentOperations[j], Operator.Multiply,
-                            out newOperation))
-                            newOperations.Add(newOperation);
-                        if (Operation.TryApplyOperator(currentOperations[i], currentOperations[j], Operator.DivideBy,
-                            out newOperation))
-                            newOperations.Add(newOperation);
-                        if (Operation.TryApplyOperator(currentOperations[i], currentOperations[j], Operator.Subtract,
-                            out newOperation))
-                            newOperations.Add(newOperation);
-                        if (Operation.TryApplyOperator(currentOperations[j], currentOperations[i], Operator.DivideBy,
-                            out newOperation))
-                            newOperations.Add(newOperation);
-                        if (Operation.TryApplyOperator(currentOperations[j], currentOperations[i], Operator.Subtract,
-                            out newOperation))
-                            newOperations.Add(newOperation);
+                        var newOperations = applyOperation(i, j, Operator.Add, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
+
+                        newOperations = applyOperation(i, j, Operator.Subtract, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
+
+                        newOperations = applyOperation(j, i, Operator.Subtract, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
+
+                        newOperations = applyOperation(i, j, Operator.Multiply, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
+
+                        newOperations = applyOperation(i, j, Operator.DivideBy, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
+
+                        newOperations = applyOperation(j, i, Operator.DivideBy, currentOperations);
+                        if (newOperations != null)
+                            operationStack.AddFirst(newOperations);
                     }
                 }
             }
             return null;
+        }
+
+        private List<Operation> applyOperation(int left, int right, Operator _operator, List<Operation> operations)
+        {
+            if (!Operation.TryApplyOperator(operations[left], operations[right], _operator,
+                out var newOperation))
+                return null;
+            var newOperations = new List<Operation>();
+            newOperations.Add(newOperation);
+            for (int i = 0; i < operations.Count; i++)
+            {
+                if (i == left || i == right)
+                    continue;
+                ; newOperations.Add(operations[i]);
+            }
+            return newOperations;
         }
 
 
