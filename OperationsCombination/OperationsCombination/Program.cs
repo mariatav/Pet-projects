@@ -26,10 +26,9 @@ namespace OperationsCombination
                 return operationSequence;
 
             this.operationSequence = "";
-            var operationStack = new LinkedList<List<Operation>>();
-            foreach (var num in this._numbers)
-                operationStack.AddFirst(new List<Operation> { new Operation(num) });
 
+            var operationStack = new LinkedList<List<Operation>>();
+            operationStack.AddFirst(_numbers.Select(x => new Operation(x)).ToList());
             while (operationStack.Count != 0)
             {
                 var currentOperations = operationStack.First.Value;
@@ -153,9 +152,9 @@ namespace OperationsCombination
                 return ToString(this);
             }
 
-            private string ToString(Operation operation)
+            private static string ToString(Operation operation)
             {
-                if (RightOperand == null || LeftOperand == null)
+                if (operation.RightOperand == null || operation.LeftOperand == null)
                     return operation.Result.ToString();
                 return ($"({ToString(operation.LeftOperand)} {ToString(operation.Operator)} {ToString(operation.RightOperand)})");
             }
@@ -179,6 +178,7 @@ namespace OperationsCombination
 
         static void Main(string[] args)
         {
+            Console.WriteLine(new OperationSequenceFinder(new[] { 1, 2, 3 }, 10).FindOperationSequence());
         }
     }
 }
