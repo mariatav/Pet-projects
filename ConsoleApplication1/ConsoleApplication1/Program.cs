@@ -32,16 +32,24 @@ namespace ConsoleApplication1
         }
         static void Main(string[] args)
         {
-            OuterClass obj = new OuterClass();
-            OuterClass.PublicNestedClass obj2 = new OuterClass.PublicNestedClass();
-            //new OuterClass.PrivateNestedClass();//produces an error
-            Interface1 nestedObject=OuterClass.privateNestedObject2;
-            nestedObject.InterfaceMethod();
-            //nestedObject.PublicInnerMethod();//produces an error
+            //OuterClass obj = new OuterClass();
+            //OuterClass.PublicNestedClass obj2 = new OuterClass.PublicNestedClass();
+            ////new OuterClass.PrivateNestedClass();//produces an error
+            //Interface1 nestedObject = OuterClass.privateNestedObject2;
+            //nestedObject.InterfaceMethod();
+            ////nestedObject.PublicInnerMethod();//produces an error
 
-            ClassInterface inter = new ClassInterface();
-            (Interface2)inter.Method1();
+            //ClassInterface inter = new ClassInterface();
+            ////(Interface2)inter.Method1();
 
+
+            //int[] a = new int[] { 1, 2, 3 };
+            //int[] b = new int[a.Length];
+            //System.Array.Copy(a, b, a.Length);
+            //b[2] = 4;
+            //Console.WriteLine();
+
+            int x = (1 + 2) * (3 + 5);
         }
     }
 }
