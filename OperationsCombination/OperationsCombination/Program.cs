@@ -38,7 +38,7 @@ namespace OperationsCombination
                 {
                     var operation = currentOperations[i];
                     if (operation.Result == this._target)
-                        return "found it!!";
+                        return operation.ToString();
                     for (int j = i + 1; j < currentOperations.Count; j++)
                     {
                         var newOperations = applyOperation(i, j, Operator.Add, currentOperations);
@@ -95,6 +95,22 @@ namespace OperationsCombination
             DivideBy
         }
 
+        public static string ToString2(Operator _operator)
+        {
+            switch (_operator)
+            {
+                case Operator.Add:
+                    return "+";
+                case Operator.DivideBy:
+                    return "/";
+                case Operator.Multiply:
+                    return "*";
+                case Operator.Subtract:
+                    return "-";
+            }
+            throw new InvalidOperationException();
+        }
+
         public class Operation
         {
             public Operation LeftOperand { get; private set; }
@@ -149,9 +165,19 @@ namespace OperationsCombination
                 };
                 return true;
             }
+
+            public override string ToString()
+            {
+                return ToString(this);
+            }
+
+            private string ToString(Operation operation)
+            {
+                if (RightOperand == null || LeftOperand == null)
+                    return operation.Result.ToString();
+                return ($"({ToString(operation.LeftOperand)} {ToString2(operation.Operator)} {ToString(operation.RightOperand)})");
+            }
         }
-
-
 
         static void Main(string[] args)
         {
