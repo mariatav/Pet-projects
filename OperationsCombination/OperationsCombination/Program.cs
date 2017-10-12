@@ -113,7 +113,7 @@ namespace OperationsCombination
             {
             }
 
-            public static bool TryApplyOperator(Operation _rightOperand, Operation _leftOperand,
+            public static bool TryApplyOperator(Operation _leftOperand, Operation _rightOperand,
                 Operators operators, out Operation _result)
             {
                 double result = 0;
@@ -126,10 +126,10 @@ namespace OperationsCombination
                         result = _rightOperand.Result * _leftOperand.Result;
                         break;
                     case Operators.DivideBy:
-                        result = (double)_rightOperand.Result / _leftOperand.Result;
+                        result = (double)_leftOperand.Result / _rightOperand.Result;
                         break;
                     case Operators.Subtract:
-                        result = _rightOperand.Result - _leftOperand.Result;
+                        result = _leftOperand.Result - _rightOperand.Result;
                         break;
                 }
                 if (result < 0 || result != (int)result)
@@ -178,7 +178,7 @@ namespace OperationsCombination
 
         static void Main(string[] args)
         {
-            Console.WriteLine(new OperationSequenceFinder(new[] { 1, 2, 3 }, 10).FindOperationSequence());
+            Console.WriteLine(new OperationSequenceFinder(new[] { 5,1, 2, 2, 3, 4,  }, 5).FindOperationSequence());
         }
     }
 }
