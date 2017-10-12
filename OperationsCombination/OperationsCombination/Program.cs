@@ -25,6 +25,7 @@ namespace OperationsCombination
             if (operationSequence != null)
                 return operationSequence;
 
+            this.operationSequence = "";
             var operationStack = new LinkedList<List<Operation>>();
             foreach (var num in this._numbers)
                 operationStack.AddFirst(new List<Operation> { new Operation(num) });
@@ -38,30 +39,33 @@ namespace OperationsCombination
                 {
                     var operation = currentOperations[i];
                     if (operation.Result == this._target)
-                        return operation.ToString();
+                    {
+                        this.operationSequence = operation.ToString();
+                        return this.operationSequence;
+                    }
                     for (int j = i + 1; j < currentOperations.Count; j++)
                     {
-                        var newOperations = applyOperation(i, j, Operator.Add, currentOperations);
+                        var newOperations = applyOperation(i, j, Operation.Operators.Add, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
 
-                        newOperations = applyOperation(i, j, Operator.Subtract, currentOperations);
+                        newOperations = applyOperation(i, j, Operation.Operators.Subtract, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
 
-                        newOperations = applyOperation(j, i, Operator.Subtract, currentOperations);
+                        newOperations = applyOperation(j, i, Operation.Operators.Subtract, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
 
-                        newOperations = applyOperation(i, j, Operator.Multiply, currentOperations);
+                        newOperations = applyOperation(i, j, Operation.Operators.Multiply, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
 
-                        newOperations = applyOperation(i, j, Operator.DivideBy, currentOperations);
+                        newOperations = applyOperation(i, j, Operation.Operators.DivideBy, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
 
-                        newOperations = applyOperation(j, i, Operator.DivideBy, currentOperations);
+                        newOperations = applyOperation(j, i, Operation.Operators.DivideBy, currentOperations);
                         if (newOperations != null)
                             operationStack.AddFirst(newOperations);
                     }
@@ -70,9 +74,9 @@ namespace OperationsCombination
             return null;
         }
 
-        private List<Operation> applyOperation(int left, int right, Operator _operator, List<Operation> operations)
+        private List<Operation> applyOperation(int left, int right, Operation.Operators @operator, List<Operation> operations)
         {
-            if (!Operation.TryApplyOperator(operations[left], operations[right], _operator,
+            if (!Operation.TryApplyOperator(operations[left], operations[right], @operator,
                 out var newOperation))
                 return null;
             var newOperations = new List<Operation>();
@@ -86,36 +90,19 @@ namespace OperationsCombination
             return newOperations;
         }
 
-
-        public enum Operator
+        private class Operation
         {
-            Multiply,
-            Add,
-            Subtract,
-            DivideBy
-        }
-
-        public static string ToString2(Operator _operator)
-        {
-            switch (_operator)
+            public enum Operators
             {
-                case Operator.Add:
-                    return "+";
-                case Operator.DivideBy:
-                    return "/";
-                case Operator.Multiply:
-                    return "*";
-                case Operator.Subtract:
-                    return "-";
+                Multiply,
+                Add,
+                Subtract,
+                DivideBy
             }
-            throw new InvalidOperationException();
-        }
 
-        public class Operation
-        {
-            public Operation LeftOperand { get; private set; }
-            public Operation RightOperand { get; private set; }
-            public Operator Operator { get; private set; }
+            private Operation LeftOperand { get; set; }
+            private Operation RightOperand { get; set; }
+            private Operators Operator { get; set; }
             public int Result { get; private set; }
 
             public Operation(int number)
@@ -127,27 +114,22 @@ namespace OperationsCombination
             {
             }
 
-            public bool Equals(Operation other)
-            {
-                return this.Result == ((Operation)other).Result;
-            }
-
             public static bool TryApplyOperator(Operation _rightOperand, Operation _leftOperand,
-                Operator _operator, out Operation _result)
+                Operators operators, out Operation _result)
             {
                 double result = 0;
-                switch (_operator)
+                switch (operators)
                 {
-                    case Operator.Add:
+                    case Operators.Add:
                         result = _rightOperand.Result + _leftOperand.Result;
                         break;
-                    case Operator.Multiply:
+                    case Operators.Multiply:
                         result = _rightOperand.Result * _leftOperand.Result;
                         break;
-                    case Operator.DivideBy:
+                    case Operators.DivideBy:
                         result = (double)_rightOperand.Result / _leftOperand.Result;
                         break;
-                    case Operator.Subtract:
+                    case Operators.Subtract:
                         result = _rightOperand.Result - _leftOperand.Result;
                         break;
                 }
@@ -160,7 +142,7 @@ namespace OperationsCombination
                 {
                     LeftOperand = _leftOperand,
                     RightOperand = _rightOperand,
-                    Operator = _operator,
+                    Operator = operators,
                     Result = (int)result
                 };
                 return true;
@@ -175,14 +157,29 @@ namespace OperationsCombination
             {
                 if (RightOperand == null || LeftOperand == null)
                     return operation.Result.ToString();
-                return ($"({ToString(operation.LeftOperand)} {ToString2(operation.Operator)} {ToString(operation.RightOperand)})");
+                return ($"({ToString(operation.LeftOperand)} {ToString(operation.Operator)} {ToString(operation.RightOperand)})");
+            }
+
+            public static string ToString(Operators @operator)
+            {
+                switch (@operator)
+                {
+                    case Operators.Add:
+                        return "+";
+                    case Operators.DivideBy:
+                        return "/";
+                    case Operators.Multiply:
+                        return "*";
+                    case Operators.Subtract:
+                        return "-";
+                }
+                throw new InvalidOperationException();
             }
         }
 
         static void Main(string[] args)
         {
         }
-
     }
 }
 
